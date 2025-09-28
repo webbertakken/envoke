@@ -15,13 +15,13 @@ const isVerbose =
 const args = unfilteredArgs.filter((arg) => arg !== '--verbose' && !arg.match(/^-v+/))
 
 const info = (message: string, ...data: any[]) => {
-  console.log(chalk.magenta('[envoke] ') + chalk.blue('Info') + `: ${message}`, ...data)
+  console.log(chalk.magenta('[Envoke] ') + chalk.blue('Info') + `: ${message}`, ...data)
 }
 const error = (message: string, ...data: any[]) => {
-  console.error(chalk.magenta('[envoke] ') + chalk.red('Error') + `: ${message}`, ...data)
+  console.error(chalk.magenta('[Envoke] ') + chalk.red('Error') + `: ${message}`, ...data)
 }
 const debug = (message: string, ...data: any[]): void => {
-  if (isVerbose) console.log(chalk.magenta('[envoke] ') + chalk.gray(`Debug: ${message}`), ...data)
+  if (isVerbose) console.log(chalk.magenta('[Envoke] ') + chalk.gray(`Debug: ${message}`), ...data)
 }
 
 // Check if the first argument resolves to a file that exists

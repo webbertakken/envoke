@@ -26,11 +26,15 @@ By allowing tsconfig path mappings
 // package.json
 {
   "scripts": {
--   "build": "tsx ./scripts/app/test.ts",
-+   "build": "envoke @scripts/app/test",
+-   "test": "tsx ./scripts/app/test.ts",
++   "test": "envoke @scripts/app/test",
   }
 }
 ```
+
+Then run it (use --verbose while debugging)
+
+![img.png](example/example-debug-output.png)
 
 ### Support monorepos
 
