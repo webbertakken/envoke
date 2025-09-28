@@ -1,0 +1,56 @@
+{
+  "name": "@takken/envoke",
+  "version": "0.1.0",
+  "description": "Convenience package for running scripts in TypeScript projects with support for tsconfig paths.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": [
+    "typescript",
+    "runner",
+    "tsconfig",
+    "paths",
+    "monorepo",
+    "tsx",
+    "path-mapping",
+    "alias"
+  ],
+  "author": {
+    "name": "Webber Takken",
+    "url": "https://takken.io",
+    "email": "webber@takken.io"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.2",
+    "tsx": "^4.20.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webbertakken/envoke.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webbertakken/envoke/issues"
+  },
+  "homepage": "https://github.com/webbertakken/envoke#readme",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "packageManager": "pnpm@10.12.4+sha1.88a0ccfe72d6345dede50dc9d6158400be2420eb"
+}
