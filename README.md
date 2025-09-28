@@ -16,7 +16,7 @@ By allowing tsconfig path mappings
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@scripts/*": ["./scripts/*"]
+      "@scripts/*": ["tools/scripts/*"]
     }
   }
 }
@@ -26,7 +26,7 @@ By allowing tsconfig path mappings
 // package.json
 {
   "scripts": {
--   "test": "tsx ./scripts/app/test.ts",
+-   "test": "tsx ./tools/scripts/app/test.ts",
 +   "test": "envoke @scripts/app/test",
   }
 }
@@ -43,7 +43,7 @@ Will keep track of the execution context as well as the root of the repository.
 The following "just works".
 
 ```diff
-- "build": "run -T tsx ../../scripts/app/test.ts",
+- "build": "run -T tsx ../../tools/scripts/app/test.ts",
 + "build": "run -T envoke @scripts/app/test",
 ```
 
@@ -52,7 +52,7 @@ The following "just works".
 Environment variables are automatically passed through to the child process.
 
 ```diff
-- "build": "ENV=production tsx ./scripts/app/build-web.ts",
+- "build": "ENV=production tsx ./tools/scripts/app/build-web.ts",
 + "build": "ENV=production envoke @scripts/app/build-web",
 ```
 
@@ -62,7 +62,7 @@ Works great in CI environments, where you might use `actions/github-script` or s
 
 ```diff
       - name: Update PR comment with deployment info
--       run: yarn run -T tsx scripts/ci/update-pr-comment.ts
+-       run: yarn run -T tsx tools/scripts/ci/update-pr-comment.ts
 +       run: yarn run -T envoke @scripts/ci/update-pr-comment
         env:
           CI: true
