@@ -1,4 +1,4 @@
-# @takken/envoke
+# Envoke
 
 A simple script runner.
 
