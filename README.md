@@ -8,7 +8,7 @@ Smooths out script running. Hear me out:
 
 ### Simplify paths 
 
-By allowing tsconfig path mappings
+By allowing tsconfig path mappings when calling scripts
 
 ```jsonc
 // tsconfig.json
