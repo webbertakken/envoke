@@ -1,6 +1,6 @@
 {
   "name": "@takken/envoke",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "Convenience package for running scripts in TypeScript projects with support for tsconfig paths.",
   "type": "module",
   "main": "./dist/index.js",
@@ -35,6 +35,9 @@
   "devDependencies": {
     "@types/node": "^24.5.2",
     "typescript": "^5.9.2"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.0.0"
   },
   "engines": {
     "node": ">=18.0.0"
