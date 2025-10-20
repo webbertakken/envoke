@@ -62,8 +62,8 @@ Works great in CI environments, where you might use `actions/github-script` or s
 
 ```diff
       - name: Update PR comment with deployment info
--       run: yarn run -T tsx tools/scripts/ci/update-pr-comment.ts
-+       run: yarn run -T envoke @scripts/ci/update-pr-comment
+-       run: yarn tsx tools/scripts/ci/update-pr-comment.ts
++       run: yarn envoke @scripts/ci/update-pr-comment
         env:
           CI: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
