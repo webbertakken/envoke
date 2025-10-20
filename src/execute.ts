@@ -64,12 +64,23 @@ if (args.length > 0) {
   }
 
   // Read tsconfig to get path mappings
-  const runTsConfig = spawnSync('tsc', ['--showConfig'], {
+  // Resolve tsc from the user's project
+  let tscBin: string
+  try {
+    const userRequire = createRequire(join(currentPath, 'package.json'))
+    const typescriptPackageJson = userRequire.resolve('typescript/package.json')
+    tscBin = join(dirname(typescriptPackageJson), 'bin', 'tsc')
+  } catch {
+    error('Failed to find TypeScript in project. Is TypeScript installed?')
+    process.exit(1)
+  }
+
+  const runTsConfig = spawnSync(process.execPath, [tscBin, '--showConfig'], {
     stdio: ['pipe', 'pipe', 'ignore'],
     cwd: currentPath,
   })
   if (runTsConfig.status !== 0) {
-    error('Failed to run tsc --showConfig. Is TypeScript installed?')
+    error('Failed to run tsc --showConfig.')
     process.exit(1)
   }
   const tsConfigString = runTsConfig.stdout?.toString()
