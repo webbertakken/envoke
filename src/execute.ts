@@ -1,9 +1,15 @@
 import { existsSync } from 'node:fs'
 import { spawnSync } from 'child_process'
 import boxen from 'boxen'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { getRootPath } from './getRootPath'
 import chalk from 'chalk'
+import { createRequire } from 'module'
+
+// Resolve tsx binary using Node's module resolution
+const require = createRequire(import.meta.url)
+const tsxPackageJson = require.resolve('tsx/package.json')
+const tsxBin = join(dirname(tsxPackageJson), 'dist', 'cli.mjs')
 
 const currentPath = process.cwd()
 const rootPath = getRootPath()
@@ -49,7 +55,7 @@ if (args.length > 0) {
   const path = join(currentPath, script)
   if (existsSync(path)) {
     debug('File exists:', path)
-    spawnSync('tsx', [path, ...args.slice(1)], {
+    spawnSync(process.execPath, [tsxBin, path, ...args.slice(1)], {
       cwd: currentPath,
       stdio: 'inherit',
       env: process.env,
@@ -123,7 +129,7 @@ if (args.length > 0) {
     process.exit(1)
   }
 
-  spawnSync('tsx', [resolvedPath, ...args.slice(1)], {
+  spawnSync(process.execPath, [tsxBin, resolvedPath, ...args.slice(1)], {
     cwd: currentPath,
     stdio: 'inherit',
     env: process.env,
