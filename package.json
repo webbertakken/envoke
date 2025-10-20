@@ -1,6 +1,6 @@
 {
   "name": "@takken/envoke",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Convenience package for running scripts in TypeScript projects with support for tsconfig paths.",
   "type": "module",
   "main": "./dist/index.js",
@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "yarn build",
     "test": "echo \"No tests yet\""
   },
   "keywords": [
