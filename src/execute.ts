@@ -55,12 +55,14 @@ if (args.length > 0) {
   const path = join(currentPath, script)
   if (existsSync(path)) {
     debug('File exists:', path)
-    spawnSync(process.execPath, [tsxBin, path, ...args.slice(1)], {
+    const directResult = spawnSync(process.execPath, [tsxBin, path, ...args.slice(1)], {
       cwd: currentPath,
       stdio: 'inherit',
       env: process.env,
     })
-    process.exit(0)
+    // Propagate the wrapped script's exit status — swallowing a non-zero
+    // exit code turns failing test suites green in CI.
+    process.exit(directResult.status ?? 1)
   }
 
   // Read tsconfig to get path mappings
@@ -140,9 +142,11 @@ if (args.length > 0) {
     process.exit(1)
   }
 
-  spawnSync(process.execPath, [tsxBin, resolvedPath, ...args.slice(1)], {
+  const resolvedResult = spawnSync(process.execPath, [tsxBin, resolvedPath, ...args.slice(1)], {
     cwd: currentPath,
     stdio: 'inherit',
     env: process.env,
   })
+  // Propagate the wrapped script's exit status (see direct-path branch above).
+  process.exit(resolvedResult.status ?? 1)
 }
