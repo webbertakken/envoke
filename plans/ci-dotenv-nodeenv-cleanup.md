@@ -242,13 +242,13 @@ flags existing.)
 
 ## Phase 6 — fold-back and handover
 
-- [ ] 6.1 Fold-back pass: module names say what they ARE (`parseArgs`,
+- [x] 6.1 Fold-back pass: module names say what they ARE (`parseArgs`,
       `loadEnvFiles`); no comments referencing this plan's coordinates
       (rewrite any into domain-word invariants); no migration shims left.
-- [ ] 6.2 Re-read the diff end-to-end (`git log --oneline main..`,
+- [x] 6.2 Re-read the diff end-to-end (`git log --oneline main..`,
       `git diff main`) checking for stray debug code, unintended files,
       and that every commit passed checks.
-- [ ] 6.3 All plan checkboxes above ticked; commit any final plan-file tick
+- [x] 6.3 All plan checkboxes above ticked; commit any final plan-file tick
       updates.
 - [ ] 6.4 ASK THE OPERATOR (do not act without permission): permission to
       push `feat/ci-env-cleanup` and open a PR; report the 5.2 npm findings
