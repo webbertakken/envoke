@@ -127,7 +127,7 @@ Current state (verified 2026-07-23):
 (C before B because .env mode-file selection in B depends on the NODE_ENV
 flags existing.)
 
-- [ ] 2.1 RED: add `test/flags.test.mjs` (same plain-node style as
+- [x] 2.1 RED: add `test/flags.test.mjs` (same plain-node style as
       `exit-codes.test.mjs`) with a fixture script that prints
       `process.env.NODE_ENV` (e.g. `test/fixtures/direct/print-node-env.ts`
       printing to stdout) covering:
@@ -145,14 +145,14 @@ flags existing.)
       - `--verbose` still works and is still filtered from script args.
       Wire the new test file into `package.json` `test` script (run both test
       files, propagate failures).
-- [ ] 2.2 GREEN: extract argument parsing into `src/parseArgs.ts` — a pure
+- [x] 2.2 GREEN: extract argument parsing into `src/parseArgs.ts` — a pure
       function `parseArgs(argv: string[])` returning
       `{ script, scriptArgs, verbose, nodeEnv | undefined }` handling
       `--verbose`/`-v`, `--production`, `--development`, `--` separator, and
       the both-flags conflict (return/throw a typed error the caller turns
       into exit 1). Refactor `execute.ts` to use it; thread `nodeEnv` into the
       child env at BOTH spawn sites (`{ ...process.env, ...(nodeEnv && { NODE_ENV: nodeEnv }) }`).
-- [ ] 2.3 All checks green (`pnpm typecheck && pnpm build && pnpm test`).
+- [x] 2.3 All checks green (`pnpm typecheck && pnpm build && pnpm test`).
       Commit (e.g. `feat: add --production/--development flags`). Tick boxes.
 - [ ] 2.4 REFACTOR (only if needed): tidy `execute.ts` after extraction;
       commit separately if changes are non-trivial.

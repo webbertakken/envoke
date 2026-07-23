@@ -3,6 +3,7 @@ import { spawnSync } from 'child_process'
 import boxen from 'boxen'
 import { dirname, join } from 'node:path'
 import { getRootPath } from './getRootPath'
+import { ArgsError, parseArgs } from './parseArgs'
 import chalk from 'chalk'
 import { createRequire } from 'module'
 
@@ -14,11 +15,6 @@ const tsxBin = join(dirname(tsxPackageJson), 'dist', 'cli.mjs')
 const currentPath = process.cwd()
 const rootPath = getRootPath()
 const isMonorepo = currentPath !== rootPath
-const unfilteredArgs = process.argv.slice(2)
-const isVerbose =
-  unfilteredArgs.includes('--verbose') || unfilteredArgs.some((e) => Boolean(e.match(/^-v+/)))
-
-const args = unfilteredArgs.filter((arg) => arg !== '--verbose' && !arg.match(/^-v+/))
 
 const info = (message: string, ...data: any[]) => {
   console.log(chalk.magenta('[Envoke] ') + chalk.blue('Info') + `: ${message}`, ...data)
@@ -26,18 +22,28 @@ const info = (message: string, ...data: any[]) => {
 const error = (message: string, ...data: any[]) => {
   console.error(chalk.magenta('[Envoke] ') + chalk.red('Error') + `: ${message}`, ...data)
 }
+
+let parsed
+try {
+  parsed = parseArgs(process.argv.slice(2))
+} catch (parseError) {
+  if (parseError instanceof ArgsError) {
+    error(parseError.message)
+    process.exit(1)
+  }
+  throw parseError
+}
+
+const { script, scriptArgs, verbose: isVerbose, nodeEnv } = parsed
+const childEnv = { ...process.env, ...(nodeEnv ? { NODE_ENV: nodeEnv } : {}) }
+
 const debug = (message: string, ...data: any[]): void => {
   if (isVerbose) console.log(chalk.magenta('[Envoke] ') + chalk.gray(`Debug: ${message}`), ...data)
 }
 
-// Check if the first argument resolves to a file that exists
-if (args.length > 0) {
-  // Check that path is given
-
-  const script = args[0]
-  if (!script) {
-    error('No path provided.')
-    process.exit(1)
+if (script) {
+  if (nodeEnv && process.env.NODE_ENV && process.env.NODE_ENV !== nodeEnv) {
+    debug(`Overriding ambient NODE_ENV with --${nodeEnv} flag`)
   }
 
   // Announce envoke is called successfully
@@ -55,10 +61,10 @@ if (args.length > 0) {
   const path = join(currentPath, script)
   if (existsSync(path)) {
     debug('File exists:', path)
-    const directResult = spawnSync(process.execPath, [tsxBin, path, ...args.slice(1)], {
+    const directResult = spawnSync(process.execPath, [tsxBin, path, ...scriptArgs], {
       cwd: currentPath,
       stdio: 'inherit',
-      env: process.env,
+      env: childEnv,
     })
     // Propagate the wrapped script's exit status — swallowing a non-zero
     // exit code turns failing test suites green in CI.
@@ -142,10 +148,10 @@ if (args.length > 0) {
     process.exit(1)
   }
 
-  const resolvedResult = spawnSync(process.execPath, [tsxBin, resolvedPath, ...args.slice(1)], {
+  const resolvedResult = spawnSync(process.execPath, [tsxBin, resolvedPath, ...scriptArgs], {
     cwd: currentPath,
     stdio: 'inherit',
-    env: process.env,
+    env: childEnv,
   })
   // Propagate the wrapped script's exit status (see direct-path branch above).
   process.exit(resolvedResult.status ?? 1)

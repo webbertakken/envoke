@@ -9,7 +9,7 @@
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "yarn build",
-    "test": "node test/exit-codes.test.mjs",
+    "test": "node test/exit-codes.test.mjs && node test/flags.test.mjs",
     "pretest": "pnpm build"
   },
   "keywords": [
