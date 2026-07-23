@@ -102,7 +102,7 @@ Current state (verified 2026-07-23):
 
 ## Phase 1 — Task A: CI workflow
 
-- [ ] 1.1 Create `.github/workflows/ci.yml`:
+- [x] 1.1 Create `.github/workflows/ci.yml`:
       - `name: CI`
       - `on: { pull_request: {}, push: { branches: [main] } }`
       - `concurrency: { group: ci-${{ github.ref }}, cancel-in-progress: true }`
@@ -116,11 +116,11 @@ Current state (verified 2026-07-23):
       - Note: `corepack enable` must run BEFORE `setup-node` with
         `cache: pnpm`, otherwise setup-node cannot find pnpm for cache
         resolution.
-- [ ] 1.2 Validate the workflow locally: run the exact step commands
+- [x] 1.2 Validate the workflow locally: run the exact step commands
       (`pnpm install --frozen-lockfile && pnpm typecheck && pnpm test`) from a
       clean state; if `act` is available, run `act pull_request` to smoke-test
       the workflow file. Fix anything it surfaces.
-- [ ] 1.3 Commit (e.g. `ci: add typecheck and test workflow`). Tick 1.x boxes.
+- [x] 1.3 Commit (e.g. `ci: add typecheck and test workflow`). Tick 1.x boxes.
 
 ## Phase 2 — Task C first: flag parsing + NODE_ENV flags
 
