@@ -97,7 +97,7 @@ Current state (verified 2026-07-23):
       `feat/ci-env-cleanup` from `main`.
 - [x] 0.2 Commit this plan file (`plans/ci-dotenv-nodeenv-cleanup.md`) as the
       first commit on the branch.
-- [ ] 0.3 Run `pnpm install`, `pnpm typecheck`, `pnpm build`, `pnpm test` to
+- [x] 0.3 Run `pnpm install`, `pnpm typecheck`, `pnpm build`, `pnpm test` to
       confirm a green baseline before touching anything.
 
 ## Phase 1 — Task A: CI workflow
