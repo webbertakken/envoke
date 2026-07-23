@@ -4,6 +4,7 @@ import boxen from 'boxen'
 import { dirname, join } from 'node:path'
 import { getRootPath } from './getRootPath'
 import { ArgsError, parseArgs } from './parseArgs'
+import { loadEnvFiles } from './loadEnvFiles'
 import chalk from 'chalk'
 import { createRequire } from 'module'
 
@@ -35,11 +36,19 @@ try {
 }
 
 const { script, scriptArgs, verbose: isVerbose, nodeEnv } = parsed
-const childEnv = { ...process.env, ...(nodeEnv ? { NODE_ENV: nodeEnv } : {}) }
 
 const debug = (message: string, ...data: any[]): void => {
   if (isVerbose) console.log(chalk.magenta('[Envoke] ') + chalk.gray(`Debug: ${message}`), ...data)
 }
+
+// The mode used for `.env.[mode]` selection: an explicit flag beats ambient.
+const mode = nodeEnv ?? process.env.NODE_ENV
+const { env: fileEnv, loadedFiles } = loadEnvFiles({ rootPath, cwd: currentPath, nodeEnv: mode })
+// Real env beats file values; an explicit flag beats even the real NODE_ENV.
+const childEnv = { ...fileEnv, ...process.env, ...(nodeEnv ? { NODE_ENV: nodeEnv } : {}) }
+
+if (loadedFiles.length > 0) debug(`Loaded env files:\n - ${loadedFiles.join('\n - ')}`)
+else debug('No .env files found.')
 
 if (script) {
   if (nodeEnv && process.env.NODE_ENV && process.env.NODE_ENV !== nodeEnv) {

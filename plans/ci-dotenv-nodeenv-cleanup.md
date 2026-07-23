@@ -165,7 +165,7 @@ flags existing.)
       changes relevant to the API used. (Added dotenv 17.4.2; using
       `dotenv.parse`, which has no logging side-effects and silently skips
       malformed lines — unaffected by v17's `config()` logging changes.)
-- [ ] 3.2 RED: add `test/dotenv.test.mjs` + fixtures. Fixture scripts print
+- [x] 3.2 RED: add `test/dotenv.test.mjs` + fixtures. Fixture scripts print
       selected env var values to stdout for assertions. Cases (every path,
       not just happy path):
       - `.env` in cwd is loaded (`FROM_ENV=cwd-env` visible to child).
@@ -185,7 +185,7 @@ flags existing.)
       - Malformed `.env` line → dotenv's lenient parsing applies; script
         still runs (document observed behaviour in the test).
       Wire into the `test` script.
-- [ ] 3.3 GREEN: implement `src/loadEnvFiles.ts` — pure-ish function
+- [x] 3.3 GREEN: implement `src/loadEnvFiles.ts` — pure-ish function
       `loadEnvFiles({ rootPath, cwd, nodeEnv }): Record<string, string>`
       that reads the candidate files in precedence order (root before cwd,
       base before local before mode before mode-local), dedupes
@@ -195,7 +195,7 @@ flags existing.)
       so real env beats files and the flag beats everything. Apply at BOTH
       spawn sites. `--verbose` logs which files were found/loaded (paths
       only, never values).
-- [ ] 3.4 All checks green. Commit (e.g. `feat: load .env files via dotenv`).
+- [x] 3.4 All checks green. Commit (e.g. `feat: load .env files via dotenv`).
       Tick boxes.
 - [ ] 3.5 REFACTOR if needed; commit separately.
 
