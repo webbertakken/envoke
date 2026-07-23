@@ -56,6 +56,47 @@ Environment variables are automatically passed through to the child process.
 + "build": "ENV=production envoke @scripts/app/build-web",
 ```
 
+### Loads .env files
+
+Reads `.env` files (via [dotenv](https://www.npmjs.com/package/dotenv)) before
+running your script, from both the repository root and the current working
+directory (deduplicated when they are the same). Missing files are ignored.
+
+Real environment variables are **never** overwritten. Sources are applied in
+this order:
+
+| Precedence (highest first) | Source |
+| --- | --- |
+| 1 | Real environment variables |
+| 2 | `NODE_ENV` from `--production` / `--development` |
+| 3 | Current working directory `.env*` files |
+| 4 | Repository root `.env*` files |
+
+Within a single directory the layers are `.env.[mode].local` > `.env.[mode]` >
+`.env.local` > `.env`. Mode files (e.g. `.env.production`) are only loaded when
+`NODE_ENV` is known, from the environment or a flag.
+
+Use `--verbose` to see which files were loaded (paths only, never values).
+
+### Sets NODE_ENV
+
+Pass `--production` or `--development` to set `NODE_ENV` for your script.
+
+```diff
+- "build": "NODE_ENV=production tsx ./tools/scripts/app/build-web.ts",
++ "build": "envoke @scripts/app/build-web --production",
+```
+
+An explicit flag wins over an inherited `NODE_ENV`. Passing both `--production`
+and `--development` is an error.
+
+Everything after a literal `--` is passed to your script untouched, so envoke
+never interprets your script's own flags:
+
+```bash
+envoke @scripts/app/serve -- --production --port 3000
+```
+
 ### Supports CI
 
 Works great in CI environments, where you might use `actions/github-script` or scall scripts directly.
@@ -118,11 +159,6 @@ pnpm envoke @scripts/hello --verbose
 # or
 bun run envoke @scripts/hello --verbose
 ```
-
-## Todo
-
-- Read .env files using [dotenv](https://www.npmjs.com/package/dotenv)
-- Add flag to pass NODE_ENV=production/development
 
 ## License
 

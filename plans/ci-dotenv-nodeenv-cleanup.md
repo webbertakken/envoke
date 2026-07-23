@@ -202,7 +202,7 @@ flags existing.)
 
 ## Phase 4 — README + docs
 
-- [ ] 4.1 Update `README.md`:
+- [x] 4.1 Update `README.md`:
       - Remove the two completed items from `## Todo` (delete the section if
         empty).
       - Document `.env` loading: which files, from where (root + cwd), the
@@ -210,7 +210,7 @@ flags existing.)
       - Document `--production` / `--development`, the conflict error, and
         the `--` separator.
       - Keep the existing tone/format (diff-style examples).
-- [ ] 4.2 Commit (e.g. `docs: document .env loading and env flags`).
+- [x] 4.2 Commit (e.g. `docs: document .env loading and env flags`).
 
 ## Phase 5 — Task D: cleanup + version/release reconciliation
 
