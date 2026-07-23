@@ -214,21 +214,31 @@ flags existing.)
 
 ## Phase 5 — Task D: cleanup + version/release reconciliation
 
-- [ ] 5.1 `git rm yarn.lock .yarnrc.yml` (pnpm is the package manager; these
+- [x] 5.1 `git rm yarn.lock .yarnrc.yml` (pnpm is the package manager; these
       are stale migration leftovers). Confirm `pnpm install` still works and
       nothing references them (`rg -i "yarn" --glob '!plans/**' --glob '!README.md'` — README
       mentions of `yarn envoke` usage by CONSUMERS are fine and stay).
-- [ ] 5.2 Check the published npm state: `npm view @takken/envoke versions`.
+- [x] 5.2 Check the published npm state: `npm view @takken/envoke versions`.
       Record findings in this plan file:
       - If `0.1.6` IS published: note that only the git tag `v0.1.6` is
         missing (tagging happens after merge — flag it to the operator).
       - If `0.1.6` is NOT published: note that `0.1.6` was never released.
-- [ ] 5.3 Bump `package.json` version to `0.2.0` (new features B + C are
+
+      **Findings (2026-07-23):**
+      - npm published versions: `0.1.0`–`0.1.5`; `dist-tags.latest = 0.1.5`.
+      - `0.1.6` is **NOT** published to npm — it was never released.
+      - A git tag `v0.1.6` exists (on origin and locally) pointing at
+        `main` HEAD (`1847638 fix: propagate wrapped script exit codes`),
+        and `package.json` was already at `0.1.6`. So `0.1.6` was version-
+        bumped and tagged but never published. This branch bumps straight to
+        `0.2.0`; the operator should decide whether the orphan `v0.1.6` tag
+        stays or is removed, and confirm the `0.2.0` publish (task 6.4).
+- [x] 5.3 Bump `package.json` version to `0.2.0` (new features B + C are
       additive). Do NOT tag and do NOT publish — that is an operator decision
       post-merge.
-- [ ] 5.4 Full final verification from clean state:
+- [x] 5.4 Full final verification from clean state:
       `rm -rf dist && pnpm install --frozen-lockfile && pnpm typecheck && pnpm test`.
-- [ ] 5.5 Commit (e.g. `chore: drop yarn artefacts, bump to 0.2.0`).
+- [x] 5.5 Commit (e.g. `chore: drop yarn artefacts, bump to 0.2.0`).
 
 ## Phase 6 — fold-back and handover
 
