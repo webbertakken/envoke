@@ -154,8 +154,9 @@ flags existing.)
       child env at BOTH spawn sites (`{ ...process.env, ...(nodeEnv && { NODE_ENV: nodeEnv }) }`).
 - [x] 2.3 All checks green (`pnpm typecheck && pnpm build && pnpm test`).
       Commit (e.g. `feat: add --production/--development flags`). Tick boxes.
-- [ ] 2.4 REFACTOR (only if needed): tidy `execute.ts` after extraction;
-      commit separately if changes are non-trivial.
+- [x] 2.4 REFACTOR (only if needed): tidy `execute.ts` after extraction;
+      commit separately if changes are non-trivial. (No further refactor
+      needed — the extraction left `execute.ts` clean.)
 
 ## Phase 3 — Task B: dotenv support
 
