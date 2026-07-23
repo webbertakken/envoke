@@ -197,7 +197,8 @@ flags existing.)
       only, never values).
 - [x] 3.4 All checks green. Commit (e.g. `feat: load .env files via dotenv`).
       Tick boxes.
-- [ ] 3.5 REFACTOR if needed; commit separately.
+- [x] 3.5 REFACTOR if needed; commit separately. (Not needed — loadEnvFiles
+      is a focused module and execute.ts composition is clear.)
 
 ## Phase 4 — README + docs
 
