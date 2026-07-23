@@ -160,9 +160,11 @@ flags existing.)
 
 ## Phase 3 — Task B: dotenv support
 
-- [ ] 3.1 Add `dotenv` as a runtime dependency
+- [x] 3.1 Add `dotenv` as a runtime dependency
       (`pnpm add dotenv`). Check its latest release notes for breaking
-      changes relevant to the API used.
+      changes relevant to the API used. (Added dotenv 17.4.2; using
+      `dotenv.parse`, which has no logging side-effects and silently skips
+      malformed lines — unaffected by v17's `config()` logging changes.)
 - [ ] 3.2 RED: add `test/dotenv.test.mjs` + fixtures. Fixture scripts print
       selected env var values to stdout for assertions. Cases (every path,
       not just happy path):
