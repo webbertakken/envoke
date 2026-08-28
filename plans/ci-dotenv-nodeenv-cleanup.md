@@ -250,6 +250,24 @@ flags existing.)
       and that every commit passed checks.
 - [x] 6.3 All plan checkboxes above ticked; commit any final plan-file tick
       updates.
-- [ ] 6.4 ASK THE OPERATOR (do not act without permission): permission to
+- [x] 6.4 ASK THE OPERATOR (do not act without permission): permission to
       push `feat/ci-env-cleanup` and open a PR; report the 5.2 npm findings
       and ask how to handle tagging `v0.1.6`/`v0.2.0` and npm publishing.
+      (Operator approved push + PR #7; leave `v0.1.6` tag; publish `0.2.0`
+      from CI after merge. Post-merge flow: push tag `v0.2.0` only.)
+
+## Phase 7 — automated npm publishing (OIDC trusted publishing)
+
+- [x] 7.1 Add `.github/workflows/release.yml` (inline steps only): trigger on
+      `push` of `v*` tags; top-level `permissions: { id-token: write,
+      contents: read }`; checkout → corepack enable → setup-node 22.x
+      (cache pnpm) → `pnpm install --frozen-lockfile` → `pnpm typecheck` →
+      `pnpm test` → tag/version guard (`v$(node -p require pkg version)`) →
+      publish. Publish uses the npm CLI route (`npm install -g npm@latest`
+      then `npm publish`) because the pinned pnpm 10.12.4 predates pnpm's
+      native OIDC support (10.13+). No token/secret/registry-url auth — OIDC
+      handles it; provenance is automatic. `prepublishOnly` runs `pnpm build`
+      (corepack enabled).
+- [x] 7.2 Validate the workflow file shape and run the pre-publish steps
+      locally (`act` cannot exercise OIDC publishing; no real publish now).
+- [ ] 7.3 Commit, push to `feat/ci-env-cleanup`, confirm PR CI stays green.
