@@ -1,6 +1,6 @@
 {
   "name": "@takken/envoke",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Convenience package for running scripts in TypeScript projects with support for tsconfig paths.",
   "type": "module",
   "main": "./dist/index.js",
@@ -8,8 +8,8 @@
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "yarn build",
-    "test": "node test/exit-codes.test.mjs",
+    "prepublishOnly": "pnpm build",
+    "test": "node test/exit-codes.test.mjs && node test/flags.test.mjs && node test/dotenv.test.mjs",
     "pretest": "pnpm build"
   },
   "keywords": [
@@ -31,6 +31,7 @@
   "dependencies": {
     "boxen": "^8.0.1",
     "chalk": "^5.6.2",
+    "dotenv": "^17.4.2",
     "tsx": "^4.20.6"
   },
   "devDependencies": {
