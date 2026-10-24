@@ -35,14 +35,14 @@
     "tsx": "^4.20.6"
   },
   "devDependencies": {
-    "@types/node": "^24.5.2",
+    "@types/node": "^26.6.5",
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
     "typescript": ">=4.0.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",

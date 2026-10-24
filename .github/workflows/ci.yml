@@ -14,15 +14,22 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['18.x', '20.x', '22.x']
+        node: ['22', '24', '26']
+    env:
+      MISE_NODE_VERSION: ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v4
-      - name: Enable corepack
-        run: corepack enable
-      - uses: actions/setup-node@v4
+      - uses: jdx/mise-action@v5
         with:
-          node-version: ${{ matrix.node }}
-          cache: pnpm
+          cache_key_prefix: mise-v1-node${{ matrix.node }}
+      - name: Resolve pnpm store path
+        id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v6
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-store-${{ runner.os }}-
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test
