@@ -78,6 +78,15 @@ Within a single directory the layers are `.env.[mode].local` > `.env.[mode]` >
 
 Use `--verbose` to see which files were loaded (paths only, never values).
 
+Pass `--no-env-files` to load none of them, so a script sees only the real
+environment. Use it where `.env.local` holds credentials a script must not
+inherit, such as a test run:
+
+```diff
+- "test": "envoke @scripts/app/test",
++ "test": "envoke --no-env-files @scripts/app/test",
+```
+
 ### Sets NODE_ENV
 
 Pass `--production` or `--development` to set `NODE_ENV` for your script.

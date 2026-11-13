@@ -35,7 +35,7 @@ try {
   throw parseError
 }
 
-const { script, scriptArgs, verbose: isVerbose, nodeEnv } = parsed
+const { script, scriptArgs, verbose: isVerbose, nodeEnv, envFiles } = parsed
 
 const debug = (message: string, ...data: any[]): void => {
   if (isVerbose) console.log(chalk.magenta('[Envoke] ') + chalk.gray(`Debug: ${message}`), ...data)
@@ -43,11 +43,15 @@ const debug = (message: string, ...data: any[]): void => {
 
 // The mode used for `.env.[mode]` selection: an explicit flag beats ambient.
 const mode = nodeEnv ?? process.env.NODE_ENV
-const { env: fileEnv, loadedFiles } = loadEnvFiles({ rootPath, cwd: currentPath, nodeEnv: mode })
+// `--no-env-files` keeps every `.env*` file out of the child: only the real environment passes.
+const { env: fileEnv, loadedFiles } = envFiles
+  ? loadEnvFiles({ rootPath, cwd: currentPath, nodeEnv: mode })
+  : { env: {}, loadedFiles: [] }
 // Real env beats file values; an explicit flag beats even the real NODE_ENV.
 const childEnv = { ...fileEnv, ...process.env, ...(nodeEnv ? { NODE_ENV: nodeEnv } : {}) }
 
-if (loadedFiles.length > 0) debug(`Loaded env files:\n - ${loadedFiles.join('\n - ')}`)
+if (!envFiles) debug('Skipped .env files (--no-env-files).')
+else if (loadedFiles.length > 0) debug(`Loaded env files:\n - ${loadedFiles.join('\n - ')}`)
 else debug('No .env files found.')
 
 if (script) {

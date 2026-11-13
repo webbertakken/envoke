@@ -146,6 +146,57 @@ check('malformed .env line is skipped, script still runs', () => {
   assert.equal(parseOutput(r).GOOD, 'yes')
 })
 
+check('--no-env-files loads no .env file, from the root or the cwd', () => {
+  const root = makeRoot()
+  const app = join(root, 'packages', 'app')
+  mkdirSync(app, { recursive: true })
+  write(root, '.env', 'ROOT_KEY=root\n')
+  write(root, '.env.local', 'ROOT_SECRET=root-local\n')
+  write(app, 'print-env.ts', PRINT_SCRIPT)
+  write(app, '.env', 'APP_KEY=app\n')
+  write(app, '.env.local', 'APP_SECRET=app-local\n')
+  const r = runEnvoke(app, ['--no-env-files', './print-env.ts', 'ROOT_KEY', 'ROOT_SECRET', 'APP_KEY', 'APP_SECRET'])
+  assert.equal(r.status, 0, r.stderr.toString())
+  assert.deepEqual(parseOutput(r), { ROOT_KEY: '', ROOT_SECRET: '', APP_KEY: '', APP_SECRET: '' })
+})
+
+check('--no-env-files is honoured after the script path too', () => {
+  const dir = makeRoot()
+  write(dir, 'print-env.ts', PRINT_SCRIPT)
+  write(dir, '.env.local', 'SECRET=local\n')
+  const r = runEnvoke(dir, ['./print-env.ts', '--no-env-files', 'SECRET'])
+  assert.equal(r.status, 0, r.stderr.toString())
+  assert.equal(parseOutput(r).SECRET, '')
+})
+
+check('--no-env-files still passes the real environment', () => {
+  const dir = makeRoot()
+  write(dir, 'print-env.ts', PRINT_SCRIPT)
+  write(dir, '.env', 'KEY=file\n')
+  const r = runEnvoke(dir, ['--no-env-files', './print-env.ts', 'KEY'], { KEY: 'real' })
+  assert.equal(parseOutput(r).KEY, 'real')
+})
+
+check('--no-env-files with --production sets NODE_ENV and loads no mode file', () => {
+  const dir = makeRoot()
+  write(dir, 'print-env.ts', PRINT_SCRIPT)
+  write(dir, '.env.production', 'KEY=prod\n')
+  const r = runEnvoke(dir, ['--no-env-files', '--production', './print-env.ts', 'KEY', 'NODE_ENV'])
+  const out = parseOutput(r)
+  assert.equal(out.KEY, '')
+  assert.equal(out.NODE_ENV, 'production')
+})
+
+check('--no-env-files after a literal -- reaches the script, and files still load', () => {
+  const dir = makeRoot()
+  write(dir, 'print-env.ts', PRINT_SCRIPT)
+  write(dir, '.env', 'KEY=file\n')
+  const r = runEnvoke(dir, ['./print-env.ts', 'KEY', '--', '--no-env-files'])
+  const out = parseOutput(r)
+  assert.equal(out.KEY, 'file')
+  assert.equal(out['--no-env-files'], '')
+})
+
 for (const dir of created) {
   try {
     rmSync(dir, { recursive: true, force: true })
