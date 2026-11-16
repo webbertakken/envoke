@@ -174,7 +174,7 @@ importers:
         version: 6.0.1
       dotenv:
         specifier: ^18.0.0
-        version: 18.0.9
+        version: 18.0.10
       tsx:
         specifier: ^4.20.6
         version: 4.23.15
@@ -467,8 +467,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  ansi-regex@6.5.0:
-    resolution: {integrity: sha512-zhvbbbdt1kbw7EJ9OQoxmQcuaNR9P5kTj7e/YdmOSU10aHWbycofJxA6jKfoEy3vlLdctOF9ZHaxLtmSm998wQ==}
+  ansi-regex@6.6.0:
+    resolution: {integrity: sha512-XZ5apbzreCbXSKwPjJstu8R0zOi247w3XYwWxtwBXgpZrCyc1Ka7p9/xY0A9/diMewmHbEKz+FIraWaEWjlN5g==}
     engines: {node: '>=12'}
 
   ansi-styles@6.2.3:
@@ -487,8 +487,8 @@ packages:
     resolution: {integrity: sha512-5IOn+jcCEHEraYolBPs/sT4BxYCe2nHg374OPiItB1O96KZFseS2gthU4twyYzeDcFew4DaUM/xwc5BQf08JJw==}
     engines: {node: '>=18.20 <19 || >=20.10'}
 
-  dotenv@18.0.9:
-    resolution: {integrity: sha512-3fVOW4cB02R066PUSwn8O4TJyz9NckQl7F81blIbaq9jKBm2tSmOKky7ZHIXzGvkVPXCSn6jkpziBPZdGFs8Tw==}
+  dotenv@18.0.10:
+    resolution: {integrity: sha512-89FAA1xchzK2mxVWdr5F/0rldwiueXs6zJM86rO66EzekR1iBdiXRthyG+m5GvkJaFH3C2LESzamTkgndmLT2A==}
     engines: {node: '>=12'}
     hasBin: true
 
@@ -695,7 +695,7 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  ansi-regex@6.5.0: {}
+  ansi-regex@6.6.0: {}
 
   ansi-styles@6.2.3: {}
 
@@ -713,7 +713,7 @@ snapshots:
 
   cli-boxes@4.0.1: {}
 
-  dotenv@18.0.9: {}
+  dotenv@18.0.10: {}
 
   esbuild@0.28.2:
     optionalDependencies:
@@ -765,7 +765,7 @@ snapshots:
 
   strip-ansi@7.2.0:
     dependencies:
-      ansi-regex: 6.5.0
+      ansi-regex: 6.6.0
 
   tagged-tag@1.0.0: {}
 
